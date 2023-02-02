@@ -29,18 +29,27 @@ void s21_input_matrix(matrix_t *matrix);
 
 void s21_print_matrix(matrix_t *matrix);
 
+int s21_sum_matrix(matrix_t *A, matrix_t *B, matrix_t *result);
+
+int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result);
+
+int s21_mult_number(matrix_t *A, double number, matrix_t *result);
+
+int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result);
+
 
 int main() {
     int rows = 2;
     int columns = 2;
     matrix_t matrix1;
     matrix_t matrix2;
-    s21_create_matrix (rows, columns, &matrix1);
-    s21_create_matrix (rows, columns, &matrix2);
+    matrix_t matrix3;
+    s21_create_matrix (rows+1, columns, &matrix1);
+    s21_create_matrix (rows, columns+1, &matrix2);
     s21_input_matrix (&matrix1);
     s21_input_matrix (&matrix2);
-    s21_print_matrix (&matrix1);
-    s21_print_matrix (&matrix2);
+    s21_mult_matrix(&matrix1, &matrix2, &matrix3);
+    s21_print_matrix (&matrix3);
     int x = s21_eq_matrix(&matrix1,&matrix2);
     printf("%d",x);
     s21_remove_matrix (&matrix1);
@@ -93,11 +102,81 @@ int s21_eq_matrix(matrix_t *A, matrix_t *B) {
     return res;
 }
 
+int s21_sum_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
+    int res = OK;
+    if (result->matrix == NULL) s21_create_matrix(A->rows,A->columns,result);
+    if (s21_correct_matrix (A) == INCORRECT_MATRIX || s21_correct_matrix (B) == INCORRECT_MATRIX) {
+        res = INCORRECT_MATRIX;
+    } else if ((A->rows != B->rows) || (A->columns != B->columns)) {
+        res = WRONG_OPERATION;
+    } else {
+        for (int i = 0; i < A->rows; i++) {
+            for (int k = 0; k < A->columns; k++) {
+                result->matrix[i][k] = A->matrix[i][k] + B->matrix[i][k];
+            }
+        }
+    }
+    return res;
+}
+
+int s21_sub_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
+    int res = OK;
+    if (result->matrix == NULL) s21_create_matrix(A->rows,A->columns,result);
+    if (s21_correct_matrix (A) == INCORRECT_MATRIX || s21_correct_matrix (B) == INCORRECT_MATRIX) {
+        res = INCORRECT_MATRIX;
+    } else if ((A->rows != B->rows) || (A->columns != B->columns)) {
+        res = WRONG_OPERATION;
+    } else {
+        for (int i = 0; i < A->rows; i++) {
+            for (int k = 0; k < A->columns; k++) {
+                result->matrix[i][k] = A->matrix[i][k] - B->matrix[i][k];
+            }
+        }
+    }
+    return res;
+}
+
+int s21_mult_number(matrix_t *A, double number, matrix_t *result) {
+    int res = OK;
+    if (result->matrix == NULL) s21_create_matrix(A->rows,A->columns,result);
+    if (s21_correct_matrix (A) == INCORRECT_MATRIX) {
+        res = INCORRECT_MATRIX;
+    } else {
+        for (int i = 0; i < A->rows; i++) {
+            for (int k = 0; k < A->columns; k++) {
+                result->matrix[i][k] = A->matrix[i][k] * number;
+            }
+        }
+    }
+    return res;
+}
+
+int s21_mult_matrix(matrix_t *A, matrix_t *B, matrix_t *result) {
+    int res = OK;
+    if (s21_correct_matrix (A) == INCORRECT_MATRIX || s21_correct_matrix (B) == INCORRECT_MATRIX) {
+        res = INCORRECT_MATRIX;
+    } else if (A->columns != B->rows) {
+        res = WRONG_OPERATION;
+    } else {
+        s21_create_matrix(A->rows, B->columns, result);
+        for (int i = 0; i < result->rows; i++) {
+            for (int j = 0; j < result->columns; j++) {
+                for (int k = 0; k < B->rows; k++ ) {
+                    result->matrix[i][j] += A->matrix[i][k] * B->matrix[k][j];
+                }
+            }
+        }
+    }
+    return res;
+}
+
+
+// support function
+
 void s21_input_matrix(matrix_t *matrix) {
     for (int i = 0; i < matrix->rows; i++) {
         for (int k = 0; k < matrix->columns; k++) {
-            double test = 0;
-            scanf ("%lf", &test);
+            double test = 2;
             matrix->matrix[i][k] = test;
         }
     }
