@@ -45,8 +45,8 @@ void s21_fill_minor(matrix_t *A, matrix_t *minors, int delete_row, int delete_co
 
 
 int main() {
-    int rows = 3;
-    int columns = 3;
+    int rows = 2;
+    int columns = 2;
     matrix_t matrix1;
 //    matrix_t matrix2;
     matrix_t matrix3;
@@ -225,6 +225,7 @@ void s21_fill_minor(matrix_t *A, matrix_t *minors, int delete_row, int delete_co
                 minors->matrix[minor_row][minor_column] = A->matrix[i][j];
                 if (minor_column + 1 >= minors->columns) {
                     minor_row++;
+                    minor_column = 0;
                 } else {
                     minor_column++;
                 }
