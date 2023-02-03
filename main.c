@@ -43,26 +43,20 @@ int s21_calc_complements(matrix_t *A, matrix_t *result);
 
 void s21_fill_minor(matrix_t *A, matrix_t *minors, int delete_row, int delete_column);
 
+double s21_count_determinant_2x(matrix_t *minors);
+
+int s21_determinant(matrix_t *A, double *result);
+
 
 int main() {
-    int rows = 2;
-    int columns = 2;
-    matrix_t matrix1;
-//    matrix_t matrix2;
+    int rows = 5;
+    int columns = 5;
+    double determ = 0;
+    matrix_t temp;
     matrix_t matrix3;
-    s21_create_matrix (rows, columns, &matrix1);
-    s21_input_matrix (&matrix1);
-    s21_calc_complements(&matrix1,&matrix3);
-//    s21_create_matrix (rows, columns+1, &matrix2);
-//    s21_input_matrix (&matrix2);
-//    s21_mult_matrix(&matrix1, &matrix2, &matrix3);
-//    s21_print_matrix (&matrix1);
-//    printf("\n");
-//    s21_print_matrix (&matrix3);
-//    int x = s21_eq_matrix(&matrix1,&matrix2);
-//    printf("%d",x);
-//    s21_remove_matrix (&matrix1);
-//    s21_remove_matrix (&matrix2);
+    s21_create_matrix (rows, columns, &temp);
+    s21_calc_complements(&temp,&matrix3);
+    s21_print_matrix(&temp);
     return 0;
 }
 
@@ -203,11 +197,38 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
         for (int i = 0; i < A->rows; i++) {
             for (int j = 0; j < A->columns; j++) {
                 matrix_t minors;
+                double determinant = 0;
+                double complement = 0;
                 s21_create_matrix(A->rows-1, A->columns-1, &minors);
                 s21_fill_minor(A, &minors, i, j);
-                s21_print_matrix(&minors);
-                printf("\n");
+                s21_determinant(&minors, &determinant);
+                complement = determinant * pow(-1,i+j);
+                result->matrix[i][j] = complement;
+                s21_remove_matrix(&minors);
             }
+        }
+    }
+    return res;
+}
+
+int s21_determinant(matrix_t *A, double *result) {
+    int res = OK;
+    *result = 0;
+    if (s21_correct_matrix (A) == INCORRECT_MATRIX) {
+        res = INCORRECT_MATRIX;
+    } else if (A->rows == 1) {
+        *result = A->matrix[0][0];
+    } else if (A->rows == 2) {
+        *result = s21_count_determinant_2x(A);
+    } else {
+        for (int i = 0; i < A->columns; i++) {
+            matrix_t minors;
+            double determinant = 0;
+            s21_create_matrix(A->rows-1, A->columns-1, &minors);
+            s21_fill_minor(A, &minors, 0, i);
+            s21_determinant(&minors,&determinant);
+            *result = *result + (A->matrix[0][i] * determinant * pow(-1,i));
+            s21_remove_matrix(&minors);
         }
     }
     return res;
@@ -215,6 +236,20 @@ int s21_calc_complements(matrix_t *A, matrix_t *result) {
 
 
 // support function
+
+double s21_count_determinant_2x(matrix_t *minors) {
+    double main_diag = 1;
+    double secondary_diag = 1;
+    double minor = 0;
+    for (int i = 0; i < minors->columns && i < minors->rows; i++) {
+        main_diag *= minors->matrix[i][i];
+    }
+    for (int i = 0, j = minors->columns - 1; i < minors->rows && j >= 0; i++, j--) {
+        secondary_diag *= minors->matrix[i][j];
+    }
+    minor = main_diag - secondary_diag;
+    return minor;
+}
 
 void s21_fill_minor(matrix_t *A, matrix_t *minors, int delete_row, int delete_column) {
     int minor_row = 0;
