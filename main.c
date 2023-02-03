@@ -47,16 +47,19 @@ double s21_count_determinant_2x(matrix_t *minors);
 
 int s21_determinant(matrix_t *A, double *result);
 
+int s21_inverse_matrix(matrix_t *A, matrix_t *result);
+
 
 int main() {
-    int rows = 5;
-    int columns = 5;
+    int rows = 3;
+    int columns = 3;
     double determ = 0;
     matrix_t temp;
     matrix_t matrix3;
     s21_create_matrix (rows, columns, &temp);
-    s21_calc_complements(&temp,&matrix3);
-    s21_print_matrix(&temp);
+    s21_input_matrix(&temp);
+    s21_inverse_matrix(&temp,&matrix3);
+    s21_print_matrix(&matrix3);
     return 0;
 }
 
@@ -232,6 +235,24 @@ int s21_determinant(matrix_t *A, double *result) {
         }
     }
     return res;
+}
+
+int s21_inverse_matrix(matrix_t *A, matrix_t *result) {
+    int res = OK;
+    double determinant = 0;
+    s21_determinant(A,&determinant);
+    if (s21_correct_matrix (A) == INCORRECT_MATRIX) {
+        res = INCORRECT_MATRIX;
+    } else if (determinant == 0) {
+        res = WRONG_OPERATION;
+    } else {
+        matrix_t inverse;
+        s21_create_matrix(A->rows, A->columns, &inverse);
+        s21_calc_complements(A,result);
+        s21_transpose(result, &inverse);
+        s21_mult_number(&inverse, 1/determinant, result);
+        s21_remove_matrix(&inverse);
+    }
 }
 
 
