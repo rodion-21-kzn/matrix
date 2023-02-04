@@ -49,6 +49,7 @@ int main() {
 }
 
 // https://learnc.info/c/fast_array_allocation.html
+// проверку на выделение памяти
 
 int s21_create_matrix(int rows, int columns, matrix_t *result) {
     int res = OK;
@@ -60,7 +61,6 @@ int s21_create_matrix(int rows, int columns, matrix_t *result) {
         for (int i = 1; i < rows; i++) {
             result->matrix[i] = result->matrix[0] + i * columns;
         }
-
     } else {
         result->matrix = NULL;
         res = INCORRECT_MATRIX;
@@ -78,7 +78,7 @@ void s21_remove_matrix(matrix_t *A) {
 int s21_eq_matrix(matrix_t *A, matrix_t *B) {
     int res = SUCCESS;
     if (s21_correct_matrix (A) == INCORRECT_MATRIX || s21_correct_matrix (B) == INCORRECT_MATRIX) {
-        res = INCORRECT_MATRIX;
+        res = FAILURE;
     } else if ((A->rows != B->rows) || (A->columns != B->columns)) {
         res = FAILURE;
     } else {
