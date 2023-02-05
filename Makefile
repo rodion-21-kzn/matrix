@@ -16,14 +16,16 @@ EXE			:= s21_matrix
 
 CC          := gcc
 CFLAGS      := -Wall -Wextra -Werror -c -std=c11
-PROFILE_FLAGS = -fprofile-arcs -ftest-coverage
-TST_LIBS = -lcheck -lm -lpthread
-COV_LIBS = -lgcov -coverage
+PROFILE_FLAGS := -fprofile-arcs -ftest-coverage
+TST_LIBS 	:= -lcheck -lm -lpthread
+COV_LIBS 	:= -lgcov -coverage
 
 
 #------------------------------------------------#
 #   VERTER                                       #
 #------------------------------------------------#
+
+all: clean s21_matrix.a
 
 s21_matrix.o:
 	$(CC) $(CFLAGS) $(SRCS) -o $@
@@ -37,7 +39,7 @@ s21_matrix.a: s21_matrix.o
 #------------------------------------------------#
 
 s21_matrix_peer:
-	$(CC) $(CFLAGS) $(SRCS) $(PROFILE_FLAGS)  -o s21_matrix.o
+	$(CC) $(CFLAGS) $(SRCS) $(PROFILE_FLAGS) -o s21_matrix.o
 	ar rc s21_matrix.a $(OBJS)
 	ranlib s21_matrix.a
 

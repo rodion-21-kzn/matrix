@@ -4,45 +4,25 @@
 
 
 //int main () {
-//    double k = 1;
 //    matrix_t A = {0}, B = {0}, C = {0}, result = {0};
-//    s21_create_matrix(4, 3, &A);
-//    s21_create_matrix(3, 4, &B);
-//    s21_create_matrix(4, 4, &C);
-//    for (int i = 0; i < 4; i++) {
-//        for (int j = 0; j < 3; j++) {
-//            A.matrix[i][j] = k++;
-//        }
-//    }
-//    k = 1;
-//    for (int i = 0; i < 3; i++) {
-//        for (int j = 0; j < 4; j++) {
-//            B.matrix[i][j] = k++;
-//        }
-//    }
-//    C.matrix[0][0] = 38;
-//    C.matrix[0][1] = 44;
-//    C.matrix[0][2] = 50;
-//    C.matrix[0][3] = 56;
-//    C.matrix[1][0] = 83;
-//    C.matrix[1][1] = 98;
-//    C.matrix[1][2] = 113;
-//    C.matrix[1][3] = 128;
-//    C.matrix[2][0] = 128;
-//    C.matrix[2][1] = 152;
-//    C.matrix[2][2] = 176;
-//    C.matrix[2][3] = 200;
-//    C.matrix[3][0] = 173;
-//    C.matrix[3][1] = 206;
-//    C.matrix[3][2] = 239;
-//    C.matrix[3][3] = 272;
-//    int x = s21_mult_matrix(&A, &B, &result);
-//    int y = s21_eq_matrix(&result, &C);
-//    printf("%d", y);
+//    s21_create_matrix(2, 2, &A);
+//    s21_create_matrix(2, 2, &B);
+//    s21_create_matrix(2, 2, &C);
+//    A.matrix[0][0] = DBL_MAX;
+//    A.matrix[0][1] = DBL_MAX;
+//    A.matrix[1][0] = DBL_MAX;
+//    A.matrix[1][1] = DBL_MAX;
+//
+//    B.matrix[0][0] = DBL_MAX;
+//    B.matrix[0][1] = DBL_MAX;
+//    B.matrix[1][0] = DBL_MAX;
+//    B.matrix[1][1] = DBL_MAX;
+//    int x = s21_sum_matrix(&A, &B, &result);
 //    s21_remove_matrix(&A);
 //    s21_remove_matrix(&B);
 //    s21_remove_matrix(&C);
 //    s21_remove_matrix(&result);
+//    printf("%d", x);
 //}
 
 // https://learnc.info/c/fast_array_allocation.html
@@ -86,7 +66,7 @@ int s21_eq_matrix(matrix_t *A, matrix_t *B) {
     } else {
         for (int i = 0; i < A->rows; i++) {
             for (int k = 0; k < A->columns; k++) {
-                if (fabs (A->matrix[i][k] - B->matrix[i][k]) >= FLT_EPSILON) {
+                if (fabs (A->matrix[i][k] - B->matrix[i][k]) > FLT_EPSILON) {
                     res = FAILURE;
                 }
             }
@@ -295,24 +275,24 @@ void s21_fill_minor(matrix_t *A, matrix_t *minors, int delete_row, int delete_co
     }
 }
 
-void s21_input_matrix(matrix_t *matrix) {
-    for (int i = 0; i < matrix->rows; i++) {
-        for (int k = 0; k < matrix->columns; k++) {
-            double test = 0;
-            scanf("%lf", &test);
-            matrix->matrix[i][k] = test;
-        }
-    }
-}
-
-void s21_print_matrix(matrix_t *matrix) {
-    for (int i = 0; i < matrix->rows; i++) {
-        for (int k = 0; k < matrix->columns; k++) {
-            printf ("%20lf", matrix->matrix[i][k]);
-        }
-        printf ("\n");
-    }
-}
+//void s21_input_matrix(matrix_t *matrix) {
+//    for (int i = 0; i < matrix->rows; i++) {
+//        for (int k = 0; k < matrix->columns; k++) {
+//            double test = 0;
+//            scanf("%lf", &test);
+//            matrix->matrix[i][k] = test;
+//        }
+//    }
+//}
+//
+//void s21_print_matrix(matrix_t *matrix) {
+//    for (int i = 0; i < matrix->rows; i++) {
+//        for (int k = 0; k < matrix->columns; k++) {
+//            printf ("%20lf", matrix->matrix[i][k]);
+//        }
+//        printf ("\n");
+//    }
+//}
 
 int s21_correct_matrix(matrix_t *matrix) {
     int res = OK;
