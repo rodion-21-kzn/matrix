@@ -3,47 +3,47 @@
 //#define malloc mymalloc
 
 
-int main () {
-    double k = 1;
-    matrix_t A = {0}, B = {0}, C = {0}, result = {0};
-    s21_create_matrix(4, 3, &A);
-    s21_create_matrix(3, 4, &B);
-    s21_create_matrix(4, 4, &C);
-    for (int i = 0; i < 4; i++) {
-        for (int j = 0; j < 3; j++) {
-            A.matrix[i][j] = k++;
-        }
-    }
-    k = 1;
-    for (int i = 0; i < 3; i++) {
-        for (int j = 0; j < 4; j++) {
-            B.matrix[i][j] = k++;
-        }
-    }
-    C.matrix[0][0] = 38;
-    C.matrix[0][1] = 44;
-    C.matrix[0][2] = 50;
-    C.matrix[0][3] = 56;
-    C.matrix[1][0] = 83;
-    C.matrix[1][1] = 98;
-    C.matrix[1][2] = 113;
-    C.matrix[1][3] = 128;
-    C.matrix[2][0] = 128;
-    C.matrix[2][1] = 152;
-    C.matrix[2][2] = 176;
-    C.matrix[2][3] = 200;
-    C.matrix[3][0] = 173;
-    C.matrix[3][1] = 206;
-    C.matrix[3][2] = 239;
-    C.matrix[3][3] = 272;
-    int x = s21_mult_matrix(&A, &B, &result);
-    int y = s21_eq_matrix(&result, &C);
-    printf("%d", y);
-    s21_remove_matrix(&A);
-    s21_remove_matrix(&B);
-    s21_remove_matrix(&C);
-    s21_remove_matrix(&result);
-}
+//int main () {
+//    double k = 1;
+//    matrix_t A = {0}, B = {0}, C = {0}, result = {0};
+//    s21_create_matrix(4, 3, &A);
+//    s21_create_matrix(3, 4, &B);
+//    s21_create_matrix(4, 4, &C);
+//    for (int i = 0; i < 4; i++) {
+//        for (int j = 0; j < 3; j++) {
+//            A.matrix[i][j] = k++;
+//        }
+//    }
+//    k = 1;
+//    for (int i = 0; i < 3; i++) {
+//        for (int j = 0; j < 4; j++) {
+//            B.matrix[i][j] = k++;
+//        }
+//    }
+//    C.matrix[0][0] = 38;
+//    C.matrix[0][1] = 44;
+//    C.matrix[0][2] = 50;
+//    C.matrix[0][3] = 56;
+//    C.matrix[1][0] = 83;
+//    C.matrix[1][1] = 98;
+//    C.matrix[1][2] = 113;
+//    C.matrix[1][3] = 128;
+//    C.matrix[2][0] = 128;
+//    C.matrix[2][1] = 152;
+//    C.matrix[2][2] = 176;
+//    C.matrix[2][3] = 200;
+//    C.matrix[3][0] = 173;
+//    C.matrix[3][1] = 206;
+//    C.matrix[3][2] = 239;
+//    C.matrix[3][3] = 272;
+//    int x = s21_mult_matrix(&A, &B, &result);
+//    int y = s21_eq_matrix(&result, &C);
+//    printf("%d", y);
+//    s21_remove_matrix(&A);
+//    s21_remove_matrix(&B);
+//    s21_remove_matrix(&C);
+//    s21_remove_matrix(&result);
+//}
 
 // https://learnc.info/c/fast_array_allocation.html
 // проверку на выделение памяти
